@@ -170,7 +170,7 @@ export default function Login() {
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>UEB - Sistema de Carteirinha Estudantil</Text>
-            <Text style={styles.footerText}>Versão 1.0.0</Text>
+            <Text style={styles.footerText}>Versão 1.0.1</Text>
             <Text style={styles.footerHelp}>Se tiver algum problema, fale com a gente.</Text>
           </View>
         </View>

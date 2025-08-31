@@ -1,10 +1,10 @@
 {
   "expo": {
     "name": "UEB",
-    "slug": "uebcarteirinha",
-    "version": "1.0.0",
+    "slug": "funemgapp",
+    "version": "1.0.3",
     "orientation": "portrait",
-    "icon": "./assets/images/ueb3.jpg",
+    "icon": "./assets/images/ueb3.png",
     "scheme": "uebapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -22,14 +22,8 @@
       }
     },
     "android": {
-      "permissions": [
-        "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.WRITE_EXTERNAL_STORAGE",
-        "android.permission.MANAGE_EXTERNAL_STORAGE",
-        "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.WRITE_EXTERNAL_STORAGE",
-        "android.permission.MANAGE_EXTERNAL_STORAGE"
-      ],
+      "versionCode": 3,
+      "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ff1481"
@@ -57,7 +51,9 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-web-browser",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
@@ -69,9 +65,6 @@
       }
     },
     "owner": "linstef",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
     "updates": {
       "url": "https://u.expo.dev/842d0d2d-e868-4d03-b0b6-73b7cb79b928"
     }
