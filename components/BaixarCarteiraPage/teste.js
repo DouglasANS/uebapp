@@ -4,9 +4,11 @@ import axios from 'axios';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import useUserStore from '../../store/userStore';
 
 export default function ButtonDownloadByCpf({ cpf, setLoadingDownload }) {
 
+ const userData = useUserStore((state) => state.userData);
 
 
     const downloadDivAsPdf = async () => {
@@ -26,7 +28,7 @@ export default function ButtonDownloadByCpf({ cpf, setLoadingDownload }) {
             const base64Pdf = arrayBufferToBase64(response.data);
 
             // 3. Define o caminho onde o arquivo será salvo
-            const fileUri = `${FileSystem.documentDirectory}carteirinha.pdf`;
+            const fileUri = `${FileSystem.documentDirectory}${userData?.nome}_carteirinhaUEB.pdf`;
 
             // 4. Salva o arquivo no sistema de arquivos
             await FileSystem.writeAsStringAsync(fileUri, base64Pdf, {

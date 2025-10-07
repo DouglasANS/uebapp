@@ -1,12 +1,9 @@
-import { Colors } from '@/constants/Colors';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import ViewShot from 'react-native-view-shot';
 import { getImagemByUserId } from '../../Api';
 import ButtonDownloadByCpf from '../../components/BaixarCarteiraPage/teste';
-import { handleCaptureAndDownloadPDF } from '../../hooks/AndroidCarteira';
 import useUserStore from '../../store/userStore';
 
 export default function BaixarCarteira() {
@@ -103,33 +100,9 @@ export default function BaixarCarteira() {
                 </View>
             ) : (
                 <View  >
-                    {currentSystem ?
-                        <View style={styles.buttonsContainer}>
-                            {/* <View style={styles.buttonWrapper}>
-                                <TouchableOpacity
-                                    style={[styles.button, { backgroundColor: Colors.light.secondary }]}
-                                    onPress={() => { handleCaptureAndDownloadPDF(currentData, viewRef, setLoadingDownload, false) }}
-                                >
-                                    <MaterialIcons name="share" size={24} color="white" />
-                                    <Text style={styles.buttonText}>Compartilhar</Text>
-                                </TouchableOpacity>
-                            </View> */}
-
-                             <View style={styles.buttonWrapper}>
-                                <TouchableOpacity
-                                    style={[styles.button, { backgroundColor: Colors.light.secondary }]}
-                                    onPress={() => { handleCaptureAndDownloadPDF(currentData, viewRef, setLoadingDownload, true) }}
-                                >
-                                    <MaterialIcons name="file-download" size={24} color="white" />
-                                    <Text style={styles.buttonText}>Baixar PDF</Text>
-                                </TouchableOpacity>
-                            </View> 
-                        </View>
-                        :
-                        <View style={styles.buttonsContainer}>
-                            <ButtonDownloadByCpf cpf={userData.cpf} setLoadingDownload={setLoadingDownload} />
-                        </View>
-                    }
+                    <View style={styles.buttonsContainer}>
+                        <ButtonDownloadByCpf cpf={userData?.cpf} setLoadingDownload={setLoadingDownload} />
+                    </View>
                 </View>
             )}
         </View>

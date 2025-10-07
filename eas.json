@@ -7,13 +7,22 @@
     "production": {
       "android": {
         "buildType": "app-bundle",
-        "distribution": "store"
+        "distribution": "store",
+        "autoIncrement": true
       }
     },
     "preview": {
       "android": {
         "buildType": "apk",
-        "distribution": "internal"
+        "distribution": "internal",
+        "autoIncrement": true
+      }
+    },
+    "development": {
+      "android": {
+        "buildType": "apk",
+        "distribution": "internal",
+        "autoIncrement": true
       }
     }
   },

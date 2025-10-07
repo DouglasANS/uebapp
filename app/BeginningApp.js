@@ -48,7 +48,7 @@ export default function BeginningApp() {
 
     // Redireciona após 3 segundos (tempo do zoom)
     const redirectTimeout = setTimeout(() => {
-      if (userData.cpf) {
+      if (userData?.cpf) {
         router.push('/(tabs)/');
       } else {
         navigation.replace('Login');

@@ -3,23 +3,23 @@ import { Colors } from '@/constants/Colors';
 import useUserStore from '@/store/userStore';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Alert, BackHandler, Platform, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 export default function LogoutButton() {
   const router = useRouter();
 
   const handleLogout = () => {
-    useUserStore.getState().clearUserData();
-    router.replace('/Login');
+    // Limpa os dados do usuário com segurança
+    const state = useUserStore.getState();
+    if (state && state.clearUserData) {
+      state.clearUserData();
+    }
 
     if (Platform.OS === 'ios') {
-      Alert.alert('Sair', 'Deseja realmente sair do aplicativo?', [
-        { text: 'Cancelar', style: 'cancel' },
-        { text: 'Sair', onPress: () => BackHandler.exitApp() },
-      ]);
+      router.replace('/Login');
     } else {
-       router.replace('/Login');
-     /*  BackHandler.exitApp(); */
+      // Android: apenas navega para Login, não fecha o app
+      router.replace('/Login');
     }
   };
 
