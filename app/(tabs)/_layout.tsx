@@ -15,7 +15,7 @@ export default function TabLayout() {
 
   useEffect(() => {
     if (Platform.OS === 'android') {
-      SystemUI.setBackgroundColorAsync('#fff');
+      SystemUI.setBackgroundColorAsync('#1a1a1a');
     }
   }, []);
 

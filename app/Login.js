@@ -1,3 +1,5 @@
+import { Colors } from '@/constants/Colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
 import {
@@ -16,10 +18,57 @@ import { getUserByCPFAndNascimento } from '../Api';
 import useUserStore from '../store/userStore';
 import AceiteTermosPage from './AceiteTermosPage';
 
-import { Colors } from '@/constants/Colors';
-
 
 export default function Login() {
+
+  const checkLoginBlocked = async () => {
+    const blockData = await AsyncStorage.getItem('loginBlock');
+    if (!blockData) return false;
+
+    const { blockedUntil } = JSON.parse(blockData);
+    const now = Date.now();
+
+    if (now < blockedUntil) {
+      const minutesLeft = Math.ceil((blockedUntil - now) / 60000);
+      alert(`Você excedeu o número de tentativas. Tente novamente em ${minutesLeft} minutos.`);
+      return true;
+    } else {
+      // Bloqueio expirou → limpar tudo
+      await AsyncStorage.removeItem('loginBlock');
+      await AsyncStorage.removeItem('loginAttempts');
+      return false;
+    }
+  };
+
+  const registerLoginError = async () => {
+    const attemptsData = await AsyncStorage.getItem('loginAttempts');
+    let attempts = attemptsData ? JSON.parse(attemptsData) : { count: 0, stage: 0 };
+
+    attempts.count += 1;
+
+    // Quando chegar a 5 erros:
+    if (attempts.count >= 5) {
+      attempts.count = 0; // zera contagem para o próximo ciclo
+      attempts.stage += 1; // sobe o nível de punição
+
+      let blockTime = 0;
+
+      if (attempts.stage === 1) blockTime = 1 * 60 * 1000; // 1 minuto
+      else if (attempts.stage === 2) blockTime = 10 * 60 * 1000; // 10 minutos
+      else if (attempts.stage === 3) blockTime = 60 * 60 * 1000; // 1 hora
+      else if (attempts.stage >= 4) {
+        blockTime = 24 * 60 * 60 * 1000; // 24 horas
+        attempts.stage = 0; // 🔁 reinicia o ciclo depois das 24h
+      }
+
+      await AsyncStorage.setItem('loginBlock', JSON.stringify({ blockedUntil: Date.now() + blockTime }));
+      alert(`Muitas tentativas incorretas. Você foi bloqueado por ${blockTime / 60000 >= 60 ? `${blockTime / 3600000}h` : `${blockTime / 60000}min`}.`);
+    }
+
+    await AsyncStorage.setItem('loginAttempts', JSON.stringify(attempts));
+  };
+
+
   const [cpf, setCpf] = useState('');
   const [dataNascimento, setDataNascimento] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -65,7 +114,12 @@ export default function Login() {
     setCpf(formattedText);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+
+    const isBlocked = await checkLoginBlocked();
+    console.log(isBlocked)
+    if (isBlocked) return;
+
     if (Platform.OS === 'ios') {
       setCurrentSystem('ios');
     } else if (Platform.OS === 'android') {
@@ -82,18 +136,20 @@ export default function Login() {
     setIsLoading(true);
 
     getUserByCPFAndNascimento({ cpf: cleanCpf, dataNascimento: formattedDate })
-      .then(res => {
+      .then(async res => {
         setIsLoading(false);
 
         if (res.data.status === false) {
+          await registerLoginError()
           return alert(`${res.data.message}`);
         }
         console.log('aqui')
         setPreviewData(res.data);
         setShowTermos(true)
       })
-      .catch(err => {
+      .catch(async err => {
         setIsLoading(false);
+        await registerLoginError()
         alert('Erro ao buscar os dados.');
         console.error(err);
       });

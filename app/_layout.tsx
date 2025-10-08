@@ -21,6 +21,13 @@ const CustomDarkTheme = {
   },
 };
 
+const styles = {
+  statusBarBackground: {
+    height: Platform.OS === 'android' ? RNStatusBar.currentHeight : 0,
+    backgroundColor: '#1a1a1a',
+  },
+};
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -116,9 +123,3 @@ export default function RootLayout() {
   );
 }
 
-const styles = {
-  statusBarBackground: {
-    height: Platform.OS === 'android' ? RNStatusBar.currentHeight : 0,
-    backgroundColor: '#1a1a1a',
-  },
-};
