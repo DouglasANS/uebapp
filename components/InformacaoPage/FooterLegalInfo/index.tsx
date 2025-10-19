@@ -2,7 +2,7 @@
 import { Linking, StyleSheet, Text, View } from 'react-native';
 
 export default function FooterLegalInfo() {
-  const version = '1.0.1'; // Você pode importar isso dinamicamente se quiser
+  const version = '1.0.9'; // Você pode importar isso dinamicamente se quiser
 
   return (
     <View style={styles.container}>

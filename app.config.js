@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "UEB",
     slug: "funemgapp",
-    version: "1.0.8",
+    version: "1.0.9",
     orientation: "portrait",
     icon: "./assets/images/ueb3.png",
     scheme: "uebapp",
@@ -22,7 +22,7 @@ export default {
       }
     },
     android: {
-      versionCode: 8,
+      versionCode: 9,
       permissions: [],
       adaptiveIcon: {
         foregroundImage: "./assets/images/adaptive-icon.png",

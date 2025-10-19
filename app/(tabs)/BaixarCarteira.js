@@ -4,6 +4,8 @@ import QRCode from 'react-native-qrcode-svg';
 import ViewShot from 'react-native-view-shot';
 import { getImagemByUserId } from '../../Api';
 import ButtonDownloadByCpf from '../../components/BaixarCarteiraPage/teste';
+import CarteirinhaExpirada from '../../components/CarteirinhaExpirada';
+import { getStatusCarteirinha } from '../../hooks/getStatusCarteirinha';
 import useUserStore from '../../store/userStore';
 
 export default function BaixarCarteira() {
@@ -31,6 +33,7 @@ export default function BaixarCarteira() {
         imagem: "https://example.com/imagem-ficticia.jpg",
         codigoUso: userData?.codigoUso || '',
         nome: userData?.nome || '',
+        ano: userData?.ano || '',
         email: userData?.email || '',
         rg: userData?.rg || '',
         dataNascimento: userData?.dataNascimento || '',
@@ -43,7 +46,7 @@ export default function BaixarCarteira() {
 
 
 
-
+    if (getStatusCarteirinha(currentData?.validadeCarteirinha) == 'expirada') return ( <CarteirinhaExpirada />)
 
     return (
         <View style={styles.container}>
